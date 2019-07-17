@@ -1,7 +1,10 @@
 ---
 title: "Human Activity Recognition"
 author: "Yun Yao"
-output: html_document
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 ## Background
@@ -19,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Setup
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 options(warn = -1)
 library(ggplot2)
 library(lattice)
@@ -45,7 +48,7 @@ The five methods include: correctly (A), throwing the elbows to the front (B), l
 2. Remove missing data
 3. Divide the dataset into a training set and a testing set
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 train <- read.csv("pml-training.csv", 
                   header = TRUE, 
                   na.strings = c("#DIV/0!"))
@@ -76,7 +79,7 @@ testing <- cleaned_train[-idx, ]
 
 ## Exploratory Visualizations
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 plotcluster(training[, -length(names(training))], training$classe)
 ```
 
@@ -86,7 +89,7 @@ Here we fit a predictive model on the HAR data using the random forests method, 
 
 algorithm, which automatically selects important features.
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 controlRF <- trainControl(method = "cv", 5)
 
 modelRF <- train(classe ~ ., data = training, 
@@ -99,7 +102,7 @@ modelRF
 
 After fitting the model, we will estimate the performance of the model using the testing data set.
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 predictRF <- predict(modelRF, testing)
 confusionMatrix(testing$classe, predictRF)
 
@@ -111,13 +114,13 @@ The estimated accuracy of the model is 99.39% and the estimated out-of-sample er
 
 ## Visualizations
 Decision Tree Visualization
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 tree <- rpart(classe ~ ., data = training, method = "class")
 prp(tree)
 ```
 
 Clustering based on predicted category
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 predicts <- data.frame(matrix(unlist(predictRF), nrow = 4904, byrow = TRUE))
 names(predicts) <- "prediction"
 predicted_testing <- cbind(testing, predicts)
@@ -125,13 +128,13 @@ plotcluster(predicted_testing[, -(120:121)], predicted_testing$prediction)
 ```
 
 Clustering based on actual category
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 plotcluster(testing[, -length(names(testing))], testing$classe)
 ```
 
 ## Predict for the Test Data Set
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, comment=""}
 predictions <- predict(modelRF, cleaned_test[, -length(names(cleaned_test))])
 predictions
 ```
