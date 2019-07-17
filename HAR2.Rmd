@@ -15,7 +15,6 @@ Reference: Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. Qualit
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("C:/Users/yaoyu/Desktop/Data Science/Course8 Practical Machine Learning/Project1")
 ```
 
 ## Setup
